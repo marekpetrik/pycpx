@@ -93,9 +93,9 @@ def process_path(s):
 import platform
 bits = platform.architecture()[0]
 
-print "\n##################################################"
-print "Figuring out CPlex setup.\n"
-print "Targeting %s platform." % bits
+print("\n##################################################")
+print("Figuring out CPlex setup.\n")
+print("Targeting %s platform." % bits)
 
 is64bit = "64" in bits
 
@@ -105,7 +105,7 @@ search_paths = []
 if "CPLEX_PATH" in os.environ:
     search_paths += process_path(os.environ["CPLEX_PATH"])
 
-search_paths += ['/usr/ilog/']
+search_paths += ['/usr/ilog/','/opt/ibm/ILOG/']
 
 if "INCLUDE_PATH" in os.environ:
     search_paths += process_path(os.environ["PATH"])
@@ -146,17 +146,17 @@ def find_path(pl, goal_list, name, mode, path_filter, test_64bit):
 
 include_path = find_path(search_paths, search_required_include_files,
                          "concert include directory", 'and', '', False)
-print "Using CPLEX concert include directory(s): %s" % (",".join(include_path))
+print("Using CPLEX concert include directory(s): %s" % (",".join(include_path)))
 extra_include_dirs += include_path
 
 cplex_lib_path = find_path(search_paths, search_required_cplex_lib_files,
                            "cplex library", 'or', '', True)
-print "Using CPLEX library directory(s): %s" % (",".join(cplex_lib_path))
+print("Using CPLEX library directory(s): %s" % (",".join(cplex_lib_path)))
 extra_library_dirs += cplex_lib_path
 
 concert_lib_path = find_path(search_paths, search_required_concert_lib_files,
                              "concert library", 'or', 'concert', True)
-print "Using CPLEX concert library directory(s): %s" % (",".join(concert_lib_path))
+print("Using CPLEX concert library directory(s): %s" % (",".join(concert_lib_path)))
 extra_library_dirs += concert_lib_path
 
 ######################################################
@@ -181,16 +181,16 @@ if cython_mode:
 else:
     cython_files = {}
 
-all_cython_files = set(chain(*cython_files.values()))
+all_cython_files = set(chain(*list(cython_files.values())))
 
-print "+++++++++++++++++++"
+print("+++++++++++++++++++")
 
 if cython_mode:
-    print "Cython Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(all_cython_files))
+    print("Cython Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(all_cython_files)))
 else:
-    print "Cython support disabled; compiling extensions from pregenerated C sources."
-    print "To enable cython, run setup.py with the option --cython."
-    print "+++++++++++++++++++"
+    print("Cython support disabled; compiling extensions from pregenerated C sources.")
+    print("To enable cython, run setup.py with the option --cython.")
+    print("+++++++++++++++++++")
 
 # Set the compiler arguments -- Add in the environment path stuff
 ld_library_path = os.getenv("LD_LIBRARY_PATH")
@@ -217,7 +217,7 @@ for d, l in chain(((d, glob(join(d, "*.cxx"))) for d in source_directory_list + 
     c_files[d] += l
 
 
-print "C Extension Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(chain(*c_files.values())))
+print("C Extension Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(chain(*list(c_files.values())))))
 
 # Collect all the python modules
 def get_python_modules(f):
@@ -230,7 +230,7 @@ python_files -= exclude_files
 
 python_modules = [get_python_modules(f) for f in python_files]
 
-print "Relevant Python Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(python_files))
+print("Relevant Python Files Found: \n%s\n+++++++++++++++++++++" % ", ".join(sorted(python_files)))
 
 if __name__ == '__main__':
     # The rest is also shared with the setup.py file, in addition to
@@ -290,14 +290,14 @@ if __name__ == '__main__':
         from Cython.Distutils import build_ext
 
         ext_modules += list(chain(*list(makeExtensionList(d, l) 
-                                        for d, l in cython_files.iteritems())))
+                                        for d, l in cython_files.items())))
         
         cmdclass = {'build_ext' : build_ext}
     else:
         cmdclass = {}
 
     ext_modules += list(chain(*list(makeExtensionList(d, l)
-                                    for d, l in c_files.iteritems())))
+                                    for d, l in c_files.items())))
     setup(
         version = version,
         description = description,
