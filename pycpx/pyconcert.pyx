@@ -609,7 +609,7 @@ cdef class CPlexExpression(object):
     def __rmul__(self, v):
         return expr_var_op_var(OP_B_MULTIPLY, v, self)
 
-    def __div__(self, v):
+    def __truediv__(self, v):
         return expr_var_op_var(OP_B_DIVIDE, self, v)
 
     def __rdiv__(self, v):
@@ -1144,18 +1144,18 @@ cdef CPlexExpression newVariableBlock(CPlexModel model, size, var_type, lower_bo
     if name is not None:
 
         if n == 1:
-            s = bytes(name)
+            s = (name).encode()
             v[0][0].setName(s)
 
         elif var_mode == "array":
             for 0 <= i < d_0:
                 for 0 <= j < d_1:
-                    s = bytes("%s[%d]" % (name, i*d_1 + j))
+                    s = ("%s[%d]" % (name, i*d_1 + j)).encode()
                     v[0][i*d_1 + j].setName(s)
         else:
             for 0 <= i < d_0:
                 for 0 <= j < d_1:
-                    s = bytes("%s[%d,%d]" % (name, i,j))
+                    s = ("%s[%d,%d]" % (name, i,j)).encode()
                     v[0][i*d_1 + j].setName(s)
 
     ############################################################
@@ -2071,7 +2071,7 @@ cdef class CPlexModel(object):
         if recycle_basis and self.model.solved():
             tmp_basis_file, tmp_basis_file_name = tempfile.mkstemp(suffix='bas', prefix='tmp_cplex')
             
-            b = bytes(tmp_basis_file_name)
+            b = (tmp_basis_file_name).encode()
             self.model.writeBasis(b)
 
         try:
@@ -2094,11 +2094,11 @@ cdef class CPlexModel(object):
                 raise ValueError("Algorithm '%s' not recognized, can be auto, primal, dual, barrier, sifting, concurrent, or netflow.")
 
             if tmp_basis_file_name is not None:
-                b = bytes(tmp_basis_file_name)
+                b = (tmp_basis_file_name).encode()
                 self.model.readBasis(b)
 
             if basis_file is not None:
-                b = bytes(basis_file)
+                b = (basis_file).encode()
                 self.model.readBasis(b)
 
             if recycle_variable_values is not None:
@@ -2144,7 +2144,7 @@ cdef class CPlexModel(object):
 
         self._checkOkay()
 
-        b = bytes(filename)
+        b = (filename).encode()
         
         cdef Status s = self.model.writeBasis(b)
         
