@@ -1,4 +1,4 @@
-import unittest, cPickle, collections
+import unittest, pickle, collections
 from copy import deepcopy, copy
 from pycpx import *
 from numpy import *

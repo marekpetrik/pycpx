@@ -376,13 +376,13 @@ class TestBasic(unittest.TestCase):
             m.minimize(y.sum() + z, algorithm='primal')
             
             t1 = m.getSolverTime()
-            print "no_basis, time = ", t1
+            print("no_basis, time = ", t1)
 
             m.saveBasis(name)
 
             m.minimize(y.sum(), basis_file = name, algorithm='primal')
             t2 = m.getSolverTime()
-            print "with basis, time = ", t2
+            print("with basis, time = ", t2)
 
             self.assert_(t2 < t1)
             
