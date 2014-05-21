@@ -68,8 +68,8 @@ import numpy
 extra_include_dirs += [numpy.get_include()]
 
 
-from distutils.core import setup
-from distutils.extension import Extension
+from setuptools import setup
+from Cython.Distutils import Extension
 
 ################################################################################
 # Find cplex!
