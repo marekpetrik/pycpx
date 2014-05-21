@@ -3,10 +3,6 @@
 #ifndef HK_DEBUG_H
 #define HK_DEBUG_H
 
-#ifdef assert
-#undef assert
-#endif
-
 #ifndef NDEBUG
 
 #warning ">>>>>>>>>>>>>>>>>>>>>> Debug On <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
@@ -28,19 +24,6 @@
 	     << __FUNCTION__ << ":"					\
 	     << __LINE__ << ": "					\
 	     << #x << " = " << (x) << endl;				\
-    }while(0)
-
-#define assert(x)							\
-    do{									\
-	if(!(x))							\
-	{								\
-	    cout << "ASSERTION FAILED: "				\
-		 << __FILE__ << ":"					\
-		 << __FUNCTION__ << ":"					\
-		 << __LINE__ << ": "					\
-		 << #x << endl;						\
-	    abort();							\
-	}								\
     }while(0)
 
 #define assert_equal(x, y)						\
@@ -156,7 +139,6 @@
 
 #define DBHERE
 #define db_printval(x)
-#define assert(x) 
 #define assert_equal(x, y)
 #define assert_notequal(x, y)
 #define assert_almost_equal(x,y)		
