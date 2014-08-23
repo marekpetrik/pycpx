@@ -1,3 +1,5 @@
+This fork modifies pycpx to be compatible with Python 3.3 and Python 3.4. 
+
 PyCPX is a python wrapper for the CPlex Optimization Suite that
 focuses on speed, ease of use, and seamless integration with numpy.
 CPlex is a powerful solver for linear and quadratic programs over
